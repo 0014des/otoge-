@@ -1,49 +1,38 @@
-let note = document.getElementById("note");
-let hitZone = document.getElementById("hit-zone");
-let scoreDisplay = document.getElementById("score");
-let score = 0;
-
-let noteY = 0;
-let speed = 2;
-let gameInterval;
-
-// ノートをリセット
-function resetNote() {
-  noteY = 0;
-  note.style.top = "0px";
+body {
+  text-align: center;
+  font-family: sans-serif;
+  background-color: #111;
+  color: #fff;
 }
 
-// ノートを落とすループ
-function startGame() {
-  resetNote();
-  gameInterval = setInterval(() => {
-    noteY += speed;
-    note.style.top = noteY + "px";
-
-    // ノートが下に行き過ぎたらリセット
-    if (noteY > 400) {
-      resetNote();
-    }
-  }, 10);
+#game-area {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  margin: 0 auto;
+  border: 2px solid #fff;
+  background-color: #222;
+  overflow: hidden;
 }
 
-// キー入力でノーツを判定
-document.addEventListener("keydown", function(e) {
-  if (e.code === "Space") {
-    let noteRect = note.getBoundingClientRect();
-    let zoneRect = hitZone.getBoundingClientRect();
+.note {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+  margin-left: -15px;
+  background-color: #f33;
+  border-radius: 50%;
+}
 
-    let diff = Math.abs(noteRect.bottom - zoneRect.top);
-
-    if (diff < 20) {
-      score += 100;
-      resetNote();
-    } else {
-      score -= 50;
-    }
-    scoreDisplay.textContent = "スコア: " + score;
-  }
-});
-
-// スタート
-startGame();
+#hit-zone {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  width: 100px;
+  height: 10px;
+  margin-left: -50px;
+  background-color: #0f0;
+  opacity: 0.5;
+}
