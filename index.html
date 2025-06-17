@@ -2,17 +2,19 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>簡単音ゲー</title>
+  <title>音付き音ゲー</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>音ゲー</h1>
+  <h1>音ゲー🎵</h1>
   <div id="game-area">
     <div class="note" id="note"></div>
     <div id="hit-zone"></div>
   </div>
-  <p>スペースキーでノーツをヒット！</p>
+  <p>スペースキーでタイミングよくノーツをヒット！</p>
   <p id="score">スコア: 0</p>
+
+  <audio id="hit-sound" src="hit.mp3" preload="auto"></audio>
 
   <script src="script.js"></script>
 </body>
