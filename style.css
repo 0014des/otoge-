@@ -1,38 +1,53 @@
-body {
-  text-align: center;
-  font-family: sans-serif;
-  background-color: #222;
-  color: white;
+const note = document.getElementById("note");
+const hitZone = document.getElementById("hit-zone");
+const scoreDisplay = document.getElementById("score");
+const hitSound = document.getElementById("hit-sound");
+
+let score = 0;
+let noteY = 0;
+const speed = 2;
+let gameInterval;
+
+// ノート初期化
+function resetNote() {
+  noteY = 0;
+  note.style.top = "0px";
 }
 
-#game-area {
-  position: relative;
-  width: 300px;
-  height: 400px;
-  margin: 0 auto;
-  border: 2px solid white;
-  background-color: #333;
-  overflow: hidden;
+// ゲーム開始
+function startGame() {
+  resetNote();
+  gameInterval = setInterval(() => {
+    noteY += speed;
+    note.style.top = noteY + "px";
+
+    if (noteY > 400) {
+      resetNote();
+    }
+  }, 10);
 }
 
-.note {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 30px;
-  height: 30px;
-  margin-left: -15px;
-  background-color: red;
-  border-radius: 50%;
-}
+// キー判定
+document.addEventListener("keydown", function(e) {
+  if (e.code === "Space") {
+    const noteRect = note.getBoundingClientRect();
+    const zoneRect = hitZone.getBoundingClientRect();
 
-#hit-zone {
-  position: absolute;
-  bottom: 50px;
-  left: 50%;
-  width: 100px;
-  height: 10px;
-  margin-left: -50px;
-  background-color: limegreen;
-  opacity: 0.5;
-}
+    const diff = Math.abs(noteRect.bottom - zoneRect.top);
+
+    if (diff < 20) {
+      score += 100;
+      hitSound.currentTime = 0;
+      hitSound.play();
+      resetNote();
+    } else {
+      score -= 50;
+    }
+
+    scoreDisplay.textContent = "スコア: " + score;
+  }
+});
+
+// ゲームスタート
+startGame();
+
